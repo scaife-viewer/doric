@@ -1,26 +1,61 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png">
-  <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <div class="columns">
+    <Column
+      v-for="(columnInfo, columnIndex) in columns"
+      :info="columnInfo"
+      :key="columnInfo.generation"
+      :columnIndex="columnIndex"
+    />
+    <div class="controls">
+      <div class="add" @click.prevent="addColumn()">+</div>
+    </div>
+  </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue';
+import Column from '@/components/Column.vue';
 
 export default {
   name: 'App',
   components: {
-    HelloWorld,
+    Column,
+  },
+  data() {
+    return this.$store.state;
+  },
+  methods: {
+    addColumn() {
+      this.$store.commit('addColumn');
+    },
   },
 };
 </script>
 
 <style lang="scss">
+body {
+  margin: 0;
+}
 #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+  font-family: -apple-system, BlinkMacSystemFont,
+    'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell,
+    'Open Sans', 'Helvetica Neue', sans-serif;
+  background: #BBB;
+}
+.columns {
+  height: 100vh;
+  display: flex;
+  overflow-y: hidden;
+  flex-grow: 1;
+  gap: 1px;
+  > .controls > .add {
+    padding: 10px;
+    font-size: 20px;
+    line-height: 16px;
+    &:hover {
+      background: green;
+      color: white;
+      cursor: pointer;
+    }
+  }
 }
 </style>
